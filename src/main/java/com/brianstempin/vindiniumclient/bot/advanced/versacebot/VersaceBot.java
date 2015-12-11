@@ -1,4 +1,4 @@
-package com.brianstempin.vindiniumclient.bot.advanced.versace;
+package com.brianstempin.vindiniumclient.bot.advanced.versacebot;
 
 import com.brianstempin.vindiniumclient.bot.BotMove;
 import com.brianstempin.vindiniumclient.bot.advanced.AdvancedBot;
@@ -112,9 +112,8 @@ public class VersaceBot implements AdvancedBot {
                 botTargetingDecisioner);
         CombatEngagementDecisioner combatEngagementDecisioner = new CombatEngagementDecisioner(combatOutcomeDecisioner,
                 healDecisioner);
-        BotWellnessDecisioner botWellnessDecisioner = new BotWellnessDecisioner(enRouteLootingDecisioner, combatEngagementDecisioner);
 
-        this.decisioner = botWellnessDecisioner;
+        this.decisioner = new BotWellnessDecisioner(enRouteLootingDecisioner, combatEngagementDecisioner);
 
     }
 

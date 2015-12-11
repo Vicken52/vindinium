@@ -1,4 +1,4 @@
-package com.brianstempin.vindiniumclient.bot.advanced.versace;
+package com.brianstempin.vindiniumclient.bot.advanced.versacebot;
 
 import com.brianstempin.vindiniumclient.bot.BotMove;
 import com.brianstempin.vindiniumclient.bot.BotUtils;
@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
-import static com.brianstempin.vindiniumclient.bot.advanced.versace.VersaceBot.DijkstraResult;
+import static com.brianstempin.vindiniumclient.bot.advanced.versacebot.VersaceBot.DijkstraResult;
 
 /**
  * Decides to go after an unclaimed mine far, far away.

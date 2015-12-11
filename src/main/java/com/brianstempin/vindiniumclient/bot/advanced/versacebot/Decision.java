@@ -1,4 +1,4 @@
-package com.brianstempin.vindiniumclient.bot.advanced.versace;
+package com.brianstempin.vindiniumclient.bot.advanced.versacebot;
 
 /**
  * Really, really simple starter for a behavior tree.

@@ -1,4 +1,4 @@
-package com.brianstempin.vindiniumclient.bot.advanced.versace;
+package com.brianstempin.vindiniumclient.bot.advanced.versacebot;
 
 import com.brianstempin.vindiniumclient.bot.BotMove;
 import com.brianstempin.vindiniumclient.bot.BotUtils;
@@ -48,6 +48,7 @@ public class BotTargetingDecisioner implements Decision<VersaceBot.GameContext, 
                 }
 
                 logger.info("Going after a crashed bot");
+                assert currentDijkstraResult != null;
                 return BotUtils.directionTowards(currentDijkstraResult.getPrevious(), nextPosition);
             }
         }
@@ -111,7 +112,7 @@ public class BotTargetingDecisioner implements Decision<VersaceBot.GameContext, 
 
         if(closestTarget != null) {
             GameState.Position nextMove = closestTarget.getPos();
-            while (closestTarget != null && closestTargetDijkstraResult.getDistance() > 1) {
+            while (closestTargetDijkstraResult.getDistance() > 1) {
                 nextMove = closestTargetDijkstraResult.getPrevious();
                 closestTargetDijkstraResult = context.getDijkstraResultMap().get(nextMove);
             }

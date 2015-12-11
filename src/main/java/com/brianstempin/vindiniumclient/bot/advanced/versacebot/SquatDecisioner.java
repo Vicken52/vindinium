@@ -1,4 +1,4 @@
-package com.brianstempin.vindiniumclient.bot.advanced.versace;
+package com.brianstempin.vindiniumclient.bot.advanced.versacebot;
 
 import com.brianstempin.vindiniumclient.bot.BotMove;
 import com.brianstempin.vindiniumclient.bot.BotUtils;
