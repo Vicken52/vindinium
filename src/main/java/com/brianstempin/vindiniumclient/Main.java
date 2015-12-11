@@ -30,10 +30,10 @@ public class Main {
 
     public static void main(String args[]) throws Exception {
 
-        final String key = args[0];
-        final String arena = args[1];
-        final String botType = args[2];
-        final String botClass = args[3];
+        final String key = "6pkkwpmp";
+        final String arena = "http://45.55.89.0:9000/api/training";
+        final String botType = "advanced";
+        final String botClass = "com.brianstempin.vindiniumclient.bot.advanced.murderbot.AdvancedMurderBot";
 
         final GenericUrl gameUrl;
 
@@ -78,8 +78,8 @@ public class Main {
      * Represents the endpoint URL
      */
     public static class VindiniumUrl extends GenericUrl {
-        private final static String TRAINING_URL = "http://vindinium.org/api/training";
-        private final static String COMPETITION_URL = "http://vindinium.org/api/arena";
+        private final static String TRAINING_URL = "http://45.55.89.0:9000/api/training";
+        private final static String COMPETITION_URL = "http://45.55.89.0:9000/api/arena";
 
         public VindiniumUrl(String encodedUrl) {
             super(encodedUrl);
