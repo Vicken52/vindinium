@@ -33,7 +33,7 @@ public class Main {
         final String key = "2nqokof8";
         final String arena = "http://45.55.89.0:9000/api/training";
         final String botType = "advanced";
-        final String botClass = "com.brianstempin.vindiniumclient.bot.advanced.versace.VersaceBot";
+        final String botClass = "com.brianstempin.vindiniumclient.bot.advanced.versacebot.VersaceBot";
 
         final GenericUrl gameUrl;
 

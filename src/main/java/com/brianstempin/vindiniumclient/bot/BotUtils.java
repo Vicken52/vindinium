@@ -2,7 +2,7 @@ package com.brianstempin.vindiniumclient.bot;
 
 import com.brianstempin.vindiniumclient.bot.advanced.AdvancedGameState;
 import com.brianstempin.vindiniumclient.bot.advanced.murderbot.AdvancedMurderBot;
-import com.brianstempin.vindiniumclient.bot.advanced.versace.VersaceBot;
+import com.brianstempin.vindiniumclient.bot.advanced.versacebot.VersaceBot;
 import com.brianstempin.vindiniumclient.dto.GameState;
 
 import java.util.LinkedList;
