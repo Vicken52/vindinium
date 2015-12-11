@@ -30,10 +30,10 @@ public class Main {
 
     public static void main(String args[]) throws Exception {
 
-        final String key = "6pkkwpmp";
+        final String key = "2nqokof8";
         final String arena = "http://45.55.89.0:9000/api/training";
         final String botType = "advanced";
-        final String botClass = "com.brianstempin.vindiniumclient.bot.advanced.murderbot.AdvancedMurderBot";
+        final String botClass = "com.brianstempin.vindiniumclient.bot.advanced.versace.VersaceBot";
 
         final GenericUrl gameUrl;
 
