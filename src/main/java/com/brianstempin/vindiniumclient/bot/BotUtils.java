@@ -2,6 +2,7 @@ package com.brianstempin.vindiniumclient.bot;
 
 import com.brianstempin.vindiniumclient.bot.advanced.AdvancedGameState;
 import com.brianstempin.vindiniumclient.bot.advanced.murderbot.AdvancedMurderBot;
+import com.brianstempin.vindiniumclient.bot.advanced.versace.VersaceBot;
 import com.brianstempin.vindiniumclient.dto.GameState;
 
 import java.util.LinkedList;
@@ -42,6 +43,28 @@ public class BotUtils {
      */
     public static List<GameState.Hero> getHeroesAround(AdvancedGameState gameState,
                                                            Map<GameState.Position, AdvancedMurderBot.DijkstraResult> searchResults,
+                                                       int radius) {
+        List<GameState.Hero> heroes = new LinkedList<>();
+
+        for(GameState.Hero currentHero : gameState.getHeroesByPosition().values()) {
+            GameState.Position currentHeroPosition = currentHero.getPos();
+            if(searchResults.get(currentHeroPosition).getDistance() <= radius
+                    && currentHero.getId() != gameState.getMe().getId())
+                heroes.add(currentHero);
+        }
+
+        return heroes;
+    }
+
+    /**
+     * Returns a list of the enemies with radius squares of your hero
+     * @param gameState
+     * @param searchResults
+     * @param radius
+     * @return
+     */
+    public static List<GameState.Hero> getVersaceHeroesAround(AdvancedGameState gameState,
+                                                       Map<GameState.Position, VersaceBot.DijkstraResult> searchResults,
                                                        int radius) {
         List<GameState.Hero> heroes = new LinkedList<>();
 
