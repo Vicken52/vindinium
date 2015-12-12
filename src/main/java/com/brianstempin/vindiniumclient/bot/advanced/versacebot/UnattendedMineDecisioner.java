@@ -55,34 +55,55 @@ public class UnattendedMineDecisioner implements Decision<VersaceBot.GameContext
 
         if(targetMine != null) {
 
-            List<GameState.Hero> near = BotUtils.getVersaceHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 3);
-            // Is it safe to move?
-            if(near.size() > 0) {
-                if(near.get(0).getLife() < me.getLife())
-                {
-                    VersaceBot.DijkstraResult currentDijkstraResult =
-                            context.getDijkstraResultMap().get(near.get(0));
-                    GameState.Position nextPosition = near.get(0).getPos();
-
-                    logger.info("Going after defending bot!");
-                    assert currentDijkstraResult != null;
-                    return BotUtils.directionTowards(currentDijkstraResult.getPrevious(), nextPosition);
+            if(context.getGameState().getMe().getMineCount() == 0)
+            {
+                GameState.Position currentPosition = targetMine.getPosition();
+                DijkstraResult currentResult = dijkstraResultMap.get(currentPosition);
+                while (currentResult.getDistance() > 1) {
+                    currentPosition = currentResult.getPrevious();
+                    currentResult = dijkstraResultMap.get(currentPosition);
                 }
-                logger.info("Mine found, but another hero is too close.");
-                return noGoodMineDecision.makeDecision(context);
-            }
 
-            GameState.Position currentPosition = targetMine.getPosition();
-            DijkstraResult currentResult = dijkstraResultMap.get(currentPosition);
-            while(currentResult.getDistance() > 1) {
-                currentPosition = currentResult.getPrevious();
-                currentResult = dijkstraResultMap.get(currentPosition);
+                logger.info("Found a suitable abandoned mine to go after");
+                return BotUtils.directionTowards(context.getGameState().getMe().getPos(),
+                        currentPosition);
             }
+            else {
+                List<GameState.Hero> near = BotUtils.getVersaceHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 1);
+                // Is it safe to move?
+                if (near.size() > 0 && me.getMineCount() > (context.getGameState().getMines().size() / 8) &&
+                        near.get(0) != null) {
+                    if (near.get(0).getLife() < me.getLife()) {
+                        VersaceBot.DijkstraResult currentDijkstraResult =
+                                context.getDijkstraResultMap().get(near);
+                        GameState.Position nextPosition = near.get(0).getPos();
 
-            logger.info("Found a suitable abandoned mine to go after");
-            return BotUtils.directionTowards(context.getGameState().getMe().getPos(),
-                    currentPosition);
-        } else {
+                        while (null != currentDijkstraResult && currentDijkstraResult.getDistance() > 1) {
+                            nextPosition = currentDijkstraResult.getPrevious();
+                            currentDijkstraResult = context.getDijkstraResultMap().get(nextPosition);
+                        }
+
+                        logger.info("Going after defending bot!");
+                        assert currentDijkstraResult != null;
+                        return BotUtils.directionTowards(currentDijkstraResult.getPrevious(), nextPosition);
+                    }
+                    logger.info("Mine found, but another hero is too close.");
+                    return noGoodMineDecision.makeDecision(context);
+                }
+
+                GameState.Position currentPosition = targetMine.getPosition();
+                DijkstraResult currentResult = dijkstraResultMap.get(currentPosition);
+                while (currentResult.getDistance() > 1) {
+                    currentPosition = currentResult.getPrevious();
+                    currentResult = dijkstraResultMap.get(currentPosition);
+                }
+
+                logger.info("Found a suitable abandoned mine to go after");
+                return BotUtils.directionTowards(context.getGameState().getMe().getPos(),
+                        currentPosition);
+            }
+        }
+        else {
             logger.info("No suitable mine found.  Deferring.");
             return noGoodMineDecision.makeDecision(context);
         }

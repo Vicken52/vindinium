@@ -127,6 +127,7 @@ public class AdvancedGameState {
             this.heroesById.put(currentHero.getId(), currentHero);
         }
         this.me = updatedState.getHero();
+        this.turn = updatedState.getGame().getTurn();
 
         // Update the mines
         this.mines = oldGameState.getMines();

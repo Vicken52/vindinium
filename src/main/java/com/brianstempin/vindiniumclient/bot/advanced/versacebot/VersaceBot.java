@@ -1,9 +1,7 @@
 package com.brianstempin.vindiniumclient.bot.advanced.versacebot;
 
 import com.brianstempin.vindiniumclient.bot.BotMove;
-import com.brianstempin.vindiniumclient.bot.advanced.AdvancedBot;
-import com.brianstempin.vindiniumclient.bot.advanced.AdvancedGameState;
-import com.brianstempin.vindiniumclient.bot.advanced.Vertex;
+import com.brianstempin.vindiniumclient.bot.advanced.*;
 import com.brianstempin.vindiniumclient.dto.GameState;
 
 import java.util.HashMap;
@@ -26,6 +24,20 @@ public class VersaceBot implements AdvancedBot {
         public GameContext(AdvancedGameState gameState, Map<GameState.Position, DijkstraResult> dijkstraResultMap) {
             this.gameState = gameState;
             this.dijkstraResultMap = dijkstraResultMap;
+        }
+
+        public boolean nearPub(GameState.Position pos)
+        {
+            for(Pub pub: this.gameState.getPubs().values())
+            {
+                if(Math.abs(pub.getPosition().getX() - pos.getX()) <= 1 &&
+                        Math.abs(pub.getPosition().getY() - pos.getY()) <= 1)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public AdvancedGameState getGameState() {

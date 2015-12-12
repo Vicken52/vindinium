@@ -7,6 +7,8 @@ import com.brianstempin.vindiniumclient.dto.GameState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Set;
+
 /**
  * Decides if the bot is "well" (healthy) and acts accordingly.
  *
@@ -53,7 +55,7 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
         for(Vertex currentVertex : myVertex.getAdjacentVertices()) {
             if(context.getGameState().getPubs().containsKey(
                     currentVertex.getPosition())) {
-                if(me.getLife() < 80) {
+                if(me.getLife() < 60 && me.getMineCount() > 1) {
                     logger.info("Bot is next to a pub already and could use health.");
                     return BotUtils.directionTowards(me.getPos(), currentVertex.getPosition());
                 }
@@ -63,34 +65,63 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
             }
         }
 
-        // Is the bot well?
-        if(me.getMineCount() == 0)
-        {
-            for(GameState.Hero hero : context.getGameState().getHeroesById().values())
-            {
-                if(hero.getId() != me.getId() &&
-                        hero.getMineCount() >= (context.getGameState().getMines().size() / 2))
-                {
-                    VersaceBot.DijkstraResult currentDijkstraResult =
-                            context.getDijkstraResultMap().get(hero.getPos());
-                    GameState.Position nextPosition = hero.getPos();
+//        if(me.getMineCount() == 0)
+//        {
+//            for(GameState.Hero hero : context.getGameState().getHeroesById().values())
+//            {
+//                if(hero.getId() != me.getId() &&
+//                        hero.getMineCount() >= ((3 * context.getGameState().getMines().size()) / 8) &&
+//                        hero.getMineCount() >= 3 && !context.nearPub(hero.getPos()))
+//                {
+//                    VersaceBot.DijkstraResult currentDijkstraResult =
+//                            context.getDijkstraResultMap().get(hero.getPos());
+//                    GameState.Position nextPosition = hero.getPos();
+//
+//                    while(null != currentDijkstraResult && currentDijkstraResult.getDistance() > 1) {
+//                        nextPosition = currentDijkstraResult.getPrevious();
+//                        currentDijkstraResult = context.getDijkstraResultMap().get(nextPosition);
+//                    }
+//
+//                    logger.info("Going after winning bot!");
+//                    assert currentDijkstraResult != null;
+//                    return BotUtils.directionTowards(currentDijkstraResult.getPrevious(), nextPosition);
+//                }
+//            }
+//        }
 
-                    logger.info("Going after winning bot!");
-                    assert currentDijkstraResult != null;
-                    return BotUtils.directionTowards(currentDijkstraResult.getPrevious(), nextPosition);
-                }
-            }
-        }
+//        Set<GameState.Position> positionSet = context.getGameState().getHeroesByPosition().keySet();
+//        GameState.Position closest = null;
+//
+//        for(GameState.Position position : positionSet)
+//        {
+//            if(closest == null ||
+//                    (Math.abs(context.getGameState().getMe().getPos().getX() - position.getX()) + Math.abs(context.getGameState().getMe().getPos().getY() - position.getY()))
+//                            < (Math.abs(context.getGameState().getMe().getPos().getX() - closest.getX()) + Math.abs(context.getGameState().getMe().getPos().getY() - closest.getY())))
+//            {
+//                closest = position;
+//            }
+//        }
+//
+//        // Is the bot well?
+//        if (closest != null && (Math.abs(context.getGameState().getMe().getPos().getX() - closest.getX()) + Math.abs(context.getGameState().getMe().getPos().getY() - closest.getY())) <= 2)
+//        {
+//            logger.info("Bot is attacking closest!");
+//            // BotTargetingDecisioner
+//            return combatDecisioner.makeDecision(context);
+//        }
+//        else
 
-        if(context.getGameState().getMe().getLife() >= 50 && (me.getMineCount() < 3 ||
-                me.getMineCount() < (context.getGameState().getMines().size() / 4))) {
+        if((context.getGameState().getMe().getLife() >= 70 && (me.getMineCount() < 3 ||
+                me.getMineCount() < (context.getGameState().getMines().size()) / 4)) ||
+                me.getMineCount() == 0) {
             logger.info("Bot is mining!");
             // UnattendedMineDecisioner
             return mineDecisioner.makeDecision(context);
         }
-        else if(context.getGameState().getMe().getLife() >= 60) {
-            logger.info("Bot is hunting!");
-            // botTargetingDecisioner
+        else if(me.getMineCount() == 0)
+        {
+            logger.info("Bot is attacking!");
+            // BotTargetingDecisioner
             return combatDecisioner.makeDecision(context);
         }
         else if(context.getGameState().getMe().getLife() >= 30) {
@@ -99,7 +130,7 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
             return yesDecisioner.makeDecision(context);
         }
         else if(context.getGameState().getMe().getMineCount() > 1 &&
-                BotUtils.getVersaceHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 2).size() > 0) {
+                BotUtils.getVersaceHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 1).size() > 0) {
             logger.info("Attempting to suicide.");
             // suicideDecisioner
             return suicideDecisioner.makeDecision(context);

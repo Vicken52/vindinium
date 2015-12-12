@@ -77,10 +77,9 @@ public class BotTargetingDecisioner implements Decision<VersaceBot.GameContext, 
             if(currentHero.getId() == context.getGameState().getMe().getId())
                 continue;
 
-//            // We don't want to target other bots of our type
-//            // TODO We probably shouldn't hardcode this name
-//            if(currentHero.getName().equals("Assassin Bot"))
-//                continue;
+            // We don't want to target other bots of our type
+            if(currentHero.getName().equals(context.getGameState().getMe().getName()))
+                continue;
 
             // Are they on their spawn?
             if(currentHero.getPos().equals(currentHero.getSpawnPos()))

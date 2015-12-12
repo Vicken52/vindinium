@@ -21,14 +21,14 @@ public class BotUtils {
      * @return
      */
     public static BotMove directionTowards(GameState.Position currentLocation, GameState.Position target) {
-        if (target.getX() < currentLocation.getX()) {
-            return BotMove.NORTH;
-        } else if (target.getX() > currentLocation.getX()) {
-            return BotMove.SOUTH;
-        } else if (target.getY() < currentLocation.getY()) {
+        if (target.getY() < currentLocation.getY()) {
             return BotMove.WEST;
         } else if (target.getY() > currentLocation.getY()) {
             return BotMove.EAST;
+        } else if (target.getX() < currentLocation.getX()) {
+            return BotMove.NORTH;
+        } else if (target.getX() > currentLocation.getX()) {
+            return BotMove.SOUTH;
         } else {
             return BotMove.STAY;
         }
@@ -70,8 +70,9 @@ public class BotUtils {
 
         for(GameState.Hero currentHero : gameState.getHeroesByPosition().values()) {
             GameState.Position currentHeroPosition = currentHero.getPos();
-            if(searchResults != null && searchResults.get(currentHeroPosition).getDistance() <= radius
-                    && currentHero.getId() != gameState.getMe().getId())
+            if(searchResults.get(currentHeroPosition) != null &&
+                    searchResults.get(currentHeroPosition).getDistance() <= radius &&
+                    currentHero.getId() != gameState.getMe().getId())
                 heroes.add(currentHero);
         }
 
