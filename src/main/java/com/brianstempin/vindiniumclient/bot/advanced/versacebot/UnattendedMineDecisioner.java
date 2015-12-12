@@ -7,6 +7,7 @@ import com.brianstempin.vindiniumclient.dto.GameState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.brianstempin.vindiniumclient.bot.advanced.versacebot.VersaceBot.DijkstraResult;
@@ -54,8 +55,19 @@ public class UnattendedMineDecisioner implements Decision<VersaceBot.GameContext
 
         if(targetMine != null) {
 
+            List<GameState.Hero> near = BotUtils.getVersaceHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 3);
             // Is it safe to move?
-            if(BotUtils.getVersaceHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 2).size() > 0) {
+            if(near.size() > 0) {
+                if(near.get(0).getLife() < me.getLife())
+                {
+                    VersaceBot.DijkstraResult currentDijkstraResult =
+                            context.getDijkstraResultMap().get(near.get(0));
+                    GameState.Position nextPosition = near.get(0).getPos();
+
+                    logger.info("Going after defending bot!");
+                    assert currentDijkstraResult != null;
+                    return BotUtils.directionTowards(currentDijkstraResult.getPrevious(), nextPosition);
+                }
                 logger.info("Mine found, but another hero is too close.");
                 return noGoodMineDecision.makeDecision(context);
             }
