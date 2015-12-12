@@ -104,7 +104,7 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
 
 
         if((context.getGameState().getMe().getLife() >= 70 && (me.getMineCount() < 3 ||
-                me.getMineCount() < (context.getGameState().getMines().size()) / 4)) ||
+                me.getMineCount() <= (context.getGameState().getMines().size()) / 4)) ||
                 me.getMineCount() == 0) {
             logger.info("Bot is mining!");
             // UnattendedMineDecisioner
