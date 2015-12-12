@@ -130,7 +130,7 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
             // BotTargetingDecisioner
             return combatDecisioner.makeDecision(context);
         }
-        else if(context.getGameState().getMe().getLife() >= 40) {
+        else if(context.getGameState().getMe().getLife() >= 50) {
             logger.info("Bot is healthy.");
             // enRouteLootingDecisioner
             return yesDecisioner.makeDecision(context);
