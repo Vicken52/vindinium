@@ -89,27 +89,19 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
 //            }
 //        }
 
-//        Set<GameState.Position> positionSet = context.getGameState().getHeroesByPosition().keySet();
-//        GameState.Position closest = null;
-//
-//        for(GameState.Position position : positionSet)
-//        {
-//            if(closest == null ||
-//                    (Math.abs(context.getGameState().getMe().getPos().getX() - position.getX()) + Math.abs(context.getGameState().getMe().getPos().getY() - position.getY()))
-//                            < (Math.abs(context.getGameState().getMe().getPos().getX() - closest.getX()) + Math.abs(context.getGameState().getMe().getPos().getY() - closest.getY())))
-//            {
-//                closest = position;
-//            }
-//        }
-//
-//        // Is the bot well?
-//        if (closest != null && (Math.abs(context.getGameState().getMe().getPos().getX() - closest.getX()) + Math.abs(context.getGameState().getMe().getPos().getY() - closest.getY())) <= 2)
-//        {
-//            logger.info("Bot is attacking closest!");
-//            // BotTargetingDecisioner
-//            return combatDecisioner.makeDecision(context);
-//        }
-//        else
+        Set<GameState.Position> positionSet = context.getGameState().getHeroesByPosition().keySet();
+        GameState.Position closest = null;
+
+        for(GameState.Position position : positionSet)
+        {
+            if(closest == null ||
+                    (Math.abs(context.getGameState().getMe().getPos().getX() - position.getX()) + Math.abs(context.getGameState().getMe().getPos().getY() - position.getY()))
+                            < (Math.abs(context.getGameState().getMe().getPos().getX() - closest.getX()) + Math.abs(context.getGameState().getMe().getPos().getY() - closest.getY())))
+            {
+                closest = position;
+            }
+        }
+
 
         if((context.getGameState().getMe().getLife() >= 70 && (me.getMineCount() < 3 ||
                 me.getMineCount() < (context.getGameState().getMines().size()) / 4)) ||
@@ -117,6 +109,20 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
             logger.info("Bot is mining!");
             // UnattendedMineDecisioner
             return mineDecisioner.makeDecision(context);
+        }
+        // Is the bot well?
+        else if (closest != null && !me.getPos().equals(closest) &&
+                (Math.abs(context.getGameState().getMe().getPos().getX() - closest.getX()) + Math.abs(context.getGameState().getMe().getPos().getY() - closest.getY())) <= 2)
+        {
+            GameState.Position nextMove = closest;
+            VersaceBot.DijkstraResult closestTargetDijkstraResult = context.getDijkstraResultMap().get(closest);
+            while (closestTargetDijkstraResult.getDistance() > 1) {
+                nextMove = closestTargetDijkstraResult.getPrevious();
+                closestTargetDijkstraResult = context.getDijkstraResultMap().get(nextMove);
+            }
+
+            logger.info("Bot is attacking closest!");
+            return BotUtils.directionTowards(closestTargetDijkstraResult.getPrevious(), nextMove);
         }
         else if(me.getMineCount() == 0)
         {
