@@ -124,12 +124,12 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
             logger.info("Bot is attacking closest!");
             return BotUtils.directionTowards(closestTargetDijkstraResult.getPrevious(), nextMove);
         }
-        else if(me.getMineCount() == 0)
-        {
-            logger.info("Bot is attacking!");
-            // BotTargetingDecisioner
-            return combatDecisioner.makeDecision(context);
-        }
+//        else if(me.getMineCount() == 0)
+//        {
+//            logger.info("Bot is attacking!");
+//            // BotTargetingDecisioner
+//            return combatDecisioner.makeDecision(context);
+//        }
         else if(context.getGameState().getMe().getLife() >= 50) {
             logger.info("Bot is healthy.");
             // enRouteLootingDecisioner
