@@ -123,6 +123,7 @@ public class BotTargetingDecisioner implements Decision<VersaceBot.GameContext, 
 
         // Ok, no one worth attacking.
         logger.info("No bot worth attacking.  Deferring.");
+        // unattendedMineDecisioner
         return noTargetFoundDecisioner.makeDecision(context);
     }
 }

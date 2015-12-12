@@ -108,12 +108,13 @@ public class VersaceBot implements AdvancedBot {
         EnRouteLootingDecisioner enRouteLootingDecisioner = new EnRouteLootingDecisioner(botTargetingDecisioner);
 
         HealDecisioner healDecisioner = new HealDecisioner();
+        SuicideDecisioner suicideDecisioner = new SuicideDecisioner(healDecisioner);
         CombatOutcomeDecisioner combatOutcomeDecisioner = new CombatOutcomeDecisioner(botTargetingDecisioner,
                 botTargetingDecisioner);
         CombatEngagementDecisioner combatEngagementDecisioner = new CombatEngagementDecisioner(combatOutcomeDecisioner,
                 healDecisioner);
 
-        this.decisioner = new BotWellnessDecisioner(enRouteLootingDecisioner, combatEngagementDecisioner);
+        this.decisioner = new BotWellnessDecisioner(enRouteLootingDecisioner, combatEngagementDecisioner, suicideDecisioner);
 
     }
 

@@ -20,11 +20,14 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
 
     private final Decision<VersaceBot.GameContext, BotMove> yesDecisioner;
     private final Decision<VersaceBot.GameContext, BotMove> noDecisioner;
+    private final Decision<VersaceBot.GameContext, BotMove> suicideDecisioner;
 
     public BotWellnessDecisioner(Decision<VersaceBot.GameContext, BotMove> yesDecisioner,
-                                 Decision<VersaceBot.GameContext, BotMove> noDecisioner) {
+                                 Decision<VersaceBot.GameContext, BotMove> noDecisioner,
+                                 Decision<VersaceBot.GameContext, BotMove> suicideDecisioner) {
         this.yesDecisioner = yesDecisioner;
         this.noDecisioner = noDecisioner;
+        this.suicideDecisioner = suicideDecisioner;
     }
 
     @Override
@@ -57,10 +60,18 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
         // Is the bot well?
         if(context.getGameState().getMe().getLife() >= 30) {
             logger.info("Bot is healthy.");
+            // enRouteLootingDecisioner
             return yesDecisioner.makeDecision(context);
+        }
+        else if(context.getGameState().getMe().getMineCount() > 1 &&
+                BotUtils.getVersaceHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 3).size() > 0) {
+            logger.info("Attempting to suicide.");
+            // suicideDecisioner
+            return suicideDecisioner.makeDecision(context);
         }
         else {
             logger.info("Bot is damaged.");
+            // combatEngagementDecisioner
             return noDecisioner.makeDecision(context);
         }
     }

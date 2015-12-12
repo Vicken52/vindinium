@@ -41,6 +41,7 @@ public class EnRouteLootingDecisioner implements Decision<VersaceBot.GameContext
                 // Is it safe to take?
                 if(BotUtils.getVersaceHeroesAround(context.getGameState(), context.getDijkstraResultMap(), 1).size() > 0) {
                     logger.info("Mine found, but another hero is too close.");
+                    // botTargetingDecisioner
                     return noGoodMineDecisioner.makeDecision(context);
                 }
                 logger.info("Taking a mine that we happen to already be walking by.");
@@ -50,6 +51,7 @@ public class EnRouteLootingDecisioner implements Decision<VersaceBot.GameContext
 
         // Nope.
         logger.info("No opportunistic mines exist.");
+        // botTargetingDecisioner
         return noGoodMineDecisioner.makeDecision(context);
     }
 }
