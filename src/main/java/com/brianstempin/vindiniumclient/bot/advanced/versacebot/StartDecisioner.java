@@ -42,7 +42,7 @@ public class StartDecisioner implements Decision<VersaceBot.GameContext, BotMove
 
         int myGold = me.getGold() + (me.getMineCount() * ((1200 - context.getGameState().getTurn()) / 4));
 
-        if(myGold > (gold + 100 + ((1200 - context.getGameState().getTurn()) / 8))) {
+        if(myGold > (gold + 100 + ((1200 - context.getGameState().getTurn()) / 20))) {
             // squatDecisioner
             logger.info("Predicting Win.");
             return yesDecisioner.makeDecision(context);
