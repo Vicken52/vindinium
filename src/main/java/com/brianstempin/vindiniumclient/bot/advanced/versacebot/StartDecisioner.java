@@ -1,9 +1,6 @@
 package com.brianstempin.vindiniumclient.bot.advanced.versacebot;
 
 import com.brianstempin.vindiniumclient.bot.BotMove;
-import com.brianstempin.vindiniumclient.bot.BotUtils;
-import com.brianstempin.vindiniumclient.bot.advanced.Mine;
-import com.brianstempin.vindiniumclient.bot.advanced.Pub;
 import com.brianstempin.vindiniumclient.dto.GameState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
