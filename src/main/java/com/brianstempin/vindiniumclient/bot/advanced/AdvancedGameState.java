@@ -13,6 +13,7 @@ public class AdvancedGameState {
     private final Map<Integer, GameState.Hero> heroesById;
     private final Map<GameState.Position, Vertex> boardGraph;
     private final GameState.Hero me;
+    private Integer turn = 0;
 
     /**
      * Creates an AdvancedGameState from a GameState
@@ -24,6 +25,7 @@ public class AdvancedGameState {
         pubs = new HashMap<>();
         heroesById = new HashMap<>();
         heroesByPosition = new HashMap<>();
+        turn = gameState.getGame().getTurn();
 
         // Hero stuffs
         for(GameState.Hero currentHero : gameState.getGame().getHeroes()) {
@@ -181,4 +183,6 @@ public class AdvancedGameState {
     public GameState.Hero getMe() {
         return me;
     }
+
+    public Integer getTurn() { return turn; }
 }
