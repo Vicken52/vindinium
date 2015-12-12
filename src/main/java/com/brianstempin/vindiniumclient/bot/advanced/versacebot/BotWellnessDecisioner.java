@@ -64,7 +64,26 @@ public class BotWellnessDecisioner implements Decision<VersaceBot.GameContext, B
         }
 
         // Is the bot well?
-        if(context.getGameState().getMe().getLife() >= 60 && me.getMineCount() < 3) {
+        if(me.getMineCount() == 0)
+        {
+            for(GameState.Hero hero : context.getGameState().getHeroesById().values())
+            {
+                if(hero.getId() != me.getId() &&
+                        hero.getMineCount() >= (context.getGameState().getMines().size() / 2))
+                {
+                    VersaceBot.DijkstraResult currentDijkstraResult =
+                            context.getDijkstraResultMap().get(hero.getPos());
+                    GameState.Position nextPosition = hero.getPos();
+
+                    logger.info("Going after winning bot!");
+                    assert currentDijkstraResult != null;
+                    return BotUtils.directionTowards(currentDijkstraResult.getPrevious(), nextPosition);
+                }
+            }
+        }
+
+        if(context.getGameState().getMe().getLife() >= 50 && (me.getMineCount() < 3 ||
+                me.getMineCount() < (context.getGameState().getMines().size() / 4))) {
             logger.info("Bot is mining!");
             // UnattendedMineDecisioner
             return mineDecisioner.makeDecision(context);
