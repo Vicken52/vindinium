@@ -70,7 +70,7 @@ public class BotUtils {
 
         for(GameState.Hero currentHero : gameState.getHeroesByPosition().values()) {
             GameState.Position currentHeroPosition = currentHero.getPos();
-            if(searchResults.get(currentHeroPosition).getDistance() <= radius
+            if(searchResults != null && searchResults.get(currentHeroPosition).getDistance() <= radius
                     && currentHero.getId() != gameState.getMe().getId())
                 heroes.add(currentHero);
         }
