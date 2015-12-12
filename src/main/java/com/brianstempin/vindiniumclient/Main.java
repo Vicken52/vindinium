@@ -32,7 +32,7 @@ public class Main {
 
         //final String key = "2nqokof8"; //Vicken
         //final String arena = "http://45.55.89.0:9000/api/training";
-        final String key = "prxv4yrn"; //Versace
+        final String key = "r6s0qi8w"; //Versace
         final String arena = "http://45.55.89.0:9000/api/arena";
         final String botType = "advanced";
         final String botClass = "com.brianstempin.vindiniumclient.bot.advanced.versacebot.VersaceBot";
